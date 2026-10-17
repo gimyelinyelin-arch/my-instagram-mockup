@@ -4,283 +4,772 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Instagram</title>
+<title> Studio</title>
 <style>
-*{box-sizing:border-box}
-:root{--line:#dbdbdb;--blue:#0095f6;--text:#262626;--muted:#737373}
-body{margin:0;color:var(--text);font:14px Arial,"Noto Sans KR",sans-serif;background:white}
-button,input,textarea{font:inherit}button{cursor:pointer}
-svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.hidden{display:none!important}
-.avatar{border-radius:50%;object-fit:cover;background:#eee;flex-shrink:0}
-.brand{font-family:Georgia,serif;font-size:29px;font-weight:bold;letter-spacing:-1.5px;margin:0 0 35px;padding:0 12px}
-.sidebar{position:fixed;inset:0 auto 0 0;width:245px;border-right:1px solid var(--line);padding:28px 12px 18px;display:flex;flex-direction:column;background:white;z-index:10}
-.nav{display:flex;flex-direction:column;gap:8px}
-.nav button{display:flex;align-items:center;gap:16px;width:100%;padding:12px;border:0;border-radius:9px;background:white;text-align:left;font-size:16px}
-.nav button:hover{background:#f5f5f5}
-.nav-bottom{margin-top:auto}
-main{margin-left:245px;padding:0 24px 45px}
-.page{max-width:935px;margin:auto}
-.mobile-header,.bottom-nav{display:none}
-.profile{display:grid;grid-template-columns:1fr 2fr;gap:28px;padding:40px 0 35px;border-bottom:1px solid var(--line)}
-.avatar-col{display:flex;justify-content:center}
-.profile-avatar{width:150px;height:150px}
-.profile-info{min-width:0}
-.profile-top{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px}
-.username{font-size:20px;overflow-wrap:anywhere}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:0;border-radius:8px;padding:8px 13px;font-weight:600}
-.gray{background:#efefef}.blue{background:var(--blue);color:white}
-.stats{display:flex;gap:35px;list-style:none;padding:0;margin:0 0 20px}
-.stats strong{font-weight:600}
-.display-name{font-weight:600;margin-bottom:5px}
-.bio{white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere}
-.stories{display:flex;gap:25px;overflow-x:auto;padding:12px 0 28px;scrollbar-width:none}
-.story{width:80px;flex:0 0 80px;border:0;background:white;padding:0;text-align:center}
-.story-ring{width:76px;height:76px;padding:3px;margin:0 auto 8px;border-radius:50%;background:linear-gradient(45deg,#ffb000,#ff3040,#c13584,#833ab4)}
-.story-ring.seen{background:#ccc}
-.story-inner{height:100%;padding:3px;border-radius:50%;background:white}
-.story-inner img{width:100%;height:100%;border-radius:50%;object-fit:cover}
-.story-label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
-.story-add .story-ring{background:#eee}
-.story-add .story-inner{display:flex;align-items:center;justify-content:center;font-size:30px}
-.tabs{display:flex;justify-content:center;gap:55px;border-top:1px solid var(--line)}
-.tab{display:flex;align-items:center;gap:7px;padding:15px 0;border:0;border-top:1px solid transparent;margin-top:-1px;background:white;color:var(--muted);font-size:12px}
-.tab.active{border-top-color:#262626;color:#262626}
-.tab svg{width:14px;height:14px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
-.tile{position:relative;aspect-ratio:1;border:0;padding:0;background:#eee;overflow:hidden}
-.tile img{width:100%;height:100%;object-fit:cover}
-.tile:hover:after{content:"♥";position:absolute;inset:0;display:grid;place-items:center;color:white;background:#0004;font-size:32px}
-.empty{grid-column:1/-1;text-align:center;padding:55px 10px;color:var(--muted)}
-.overlay{position:fixed;inset:0;background:#0009;z-index:30;display:flex;align-items:center;justify-content:center;padding:15px}
-.modal{background:white;width:min(440px,100%);max-height:92vh;overflow:auto;border-radius:12px}
-.modal-head{padding:15px;text-align:center;font-weight:bold;border-bottom:1px solid var(--line);position:relative}
-.close{position:absolute;right:12px;top:7px;border:0;background:white;font-size:25px}
-.modal-body{padding:20px}
-.field{margin-bottom:15px}
-.field label{display:block;font-weight:bold;margin-bottom:7px}
-.field input,.field textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px}
-.field textarea{min-height:90px}
-.full{width:100%}
-.story-view{position:relative;width:min(400px,100%);height:min(740px,88vh);background:#222;border-radius:10px;overflow:hidden;color:white}
-.story-view>img{width:100%;height:100%;object-fit:contain}
-.story-head{position:absolute;top:18px;left:14px;right:45px;display:flex;align-items:center;gap:10px;z-index:1}
-.story-head img{width:35px;height:35px;border:1px solid white}
-.story-close{position:absolute;right:12px;top:10px;color:white;background:none;border:0;font-size:28px;z-index:2}
-.story-arrow{position:absolute;top:50%;transform:translateY(-50%);border:0;border-radius:50%;background:#fffa;width:35px;height:35px;font-size:22px}
-.story-arrow.left{left:8px}.story-arrow.right{right:8px}
-.post-view{width:min(850px,100%);display:grid;grid-template-columns:1.2fr .8fr;background:white;max-height:90vh}
-.post-photo{background:#111;display:grid;place-items:center;min-height:250px}
-.post-photo img{max-width:100%;max-height:85vh;object-fit:contain}
-.post-right{display:flex;flex-direction:column;min-width:0}
-.post-author{padding:14px;border-bottom:1px solid var(--line);font-weight:bold}
-.comments{padding:14px;flex:1;overflow:auto;max-height:300px;line-height:1.6;overflow-wrap:anywhere}
-.comment{margin-bottom:12px}
-.post-tools{padding:12px;border-top:1px solid var(--line)}
-.tool-buttons{display:flex;gap:15px;margin-bottom:8px}
-.tool-buttons button{border:0;background:white;padding:0}
-.comment-form{display:flex;padding:12px;border-top:1px solid var(--line);gap:8px}
-.comment-form input{flex:1;min-width:0;border:0}
-.comment-form button{border:0;background:white;color:var(--blue);font-weight:bold}
-.dm{width:min(850px,100%);display:grid;grid-template-columns:220px 1fr;height:min(650px,85vh);background:white}
-.dm-list{border-right:1px solid var(--line);overflow:auto}
-.dm-list h3{padding:12px}
-.contact{display:flex;align-items:center;gap:9px;padding:12px;width:100%;border:0;background:white;text-align:left}
-.contact:hover,.contact.selected{background:#f5f5f5}
-.contact img{width:40px;height:40px}
-.chat{display:flex;flex-direction:column;min-width:0}
-.chat-head{padding:12px;border-bottom:1px solid var(--line);font-weight:bold}
-.messages{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:10px}
-.bubble{background:#efefef;border-radius:18px;padding:10px 13px;max-width:80%;align-self:flex-start;overflow-wrap:anywhere}
-.bubble.mine{background:#3797f0;color:white;align-self:flex-end}
-.dm-form{display:flex;gap:8px;padding:12px}
-.dm-form input{min-width:0;flex:1;border:1px solid var(--line);border-radius:20px;padding:10px}
-.dm-form button{border:0;background:white;color:var(--blue)}
-@media(max-width:767px){
-.sidebar{display:none}main{margin:0;padding:0 0 60px}
-.mobile-header{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #eee;position:sticky;top:0;background:white;z-index:10}
-.mobile-header .brand{font-size:25px;margin:0;padding:0}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:54px;background:white;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:20}
-.bottom-nav button{border:0;background:white;padding:8px}
-.profile{grid-template-columns:85px 1fr;gap:12px;padding:22px 14px 15px}
-.profile-avatar{width:76px;height:76px}
-.avatar-col{justify-content:flex-start}
-.profile-top{gap:8px;margin-bottom:10px}
-.username{font-size:18px;width:100%}
-.actions{gap:5px}.actions .btn{font-size:12px;padding:7px}
-.stats{grid-column:1/-1;grid-row:2;justify-content:space-around;gap:5px;margin:8px -90px 0 -95px;padding-top:12px;border-top:1px solid #eee;font-size:12px}
-.stats strong{display:block;text-align:center;font-size:14px}
-.stories{gap:17px;padding:12px 12px 22px}
-.story{width:65px;flex-basis:65px}.story-ring{width:62px;height:62px}
-.tabs{gap:0}.tab{flex:1;justify-content:center}.tab span{display:none}
-.grid{gap:2px}
-.overlay{padding:0}.modal{border-radius:0;max-height:100vh;width:100%}
-.post-view{grid-template-columns:1fr;max-height:100vh;overflow:auto}
-.post-photo{min-height:180px;max-height:38vh}.post-photo img{max-height:38vh}
-.post-right{min-height:260px}.comments{max-height:180px}
-.dm{grid-template-columns:90px 1fr;height:calc(100vh - 50px)}
-.dm-list h3{font-size:12px;padding:12px 5px}
-.contact{flex-direction:column;gap:4px;padding:10px 2px;text-align:center;font-size:11px}
-.contact img{width:38px;height:38px}
-.story-view{width:100%;height:100vh;border-radius:0}
+:root{
+  --bg:#f5f5f7;
+  --panel:#fff;
+  --line:#e8e8ec;
+  --text:#24242a;
+  --muted:#888893;
+  --accent:#7559ed;
+  --accent-light:#f0edff;
 }
-@media(min-width:768px) and (max-width:1100px){
-.sidebar{width:74px;align-items:center}.sidebar .brand{font-size:0;padding:0}.sidebar .brand:after{content:"◎";font-size:32px}.nav button{justify-content:center;padding:12px}.nav-label{display:none}main{margin-left:74px}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
+  "Noto Sans KR",Arial,sans-serif;
+  font-size:14px;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px
+}
+.app{min-height:100vh}
+.topbar{
+  height:65px;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;position:sticky;top:0;z-index:20
+}
+.logo{font-size:21px;font-weight:850;letter-spacing:-1px}
+.logo span{color:var(--accent)}
+.top-label{font-size:12px;color:var(--muted)}
+.top-actions{display:flex;align-items:center;gap:9px}
+.btn{
+  border:0;border-radius:9px;padding:10px 14px;
+  font-weight:700;background:#f0f0f4;color:#444
+}
+.btn.primary{background:var(--accent);color:white}
+.btn.small{padding:7px 10px;font-size:12px}
+.layout{
+  display:grid;grid-template-columns:minmax(300px,390px) 1fr;
+  max-width:1500px;margin:auto;min-height:calc(100vh - 65px)
+}
+.editor{
+  padding:24px 22px 50px;background:#fff;
+  border-right:1px solid var(--line)
+}
+.editor-heading{margin-bottom:23px}
+.editor-heading h1{font-size:23px;letter-spacing:-.8px;margin:0 0 7px}
+.editor-heading p{color:var(--muted);line-height:1.6;margin:0}
+.section{
+  border:1px solid var(--line);border-radius:13px;
+  padding:16px;margin-bottom:13px;background:#fff
+}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:15px
+}
+.section-title{font-size:14px;font-weight:800}
+.section-number{
+  display:inline-grid;place-items:center;width:25px;height:25px;
+  border-radius:8px;background:var(--accent-light);
+  color:var(--accent);font-size:12px;margin-right:8px
+}
+.field{margin-bottom:13px}
+.field:last-child{margin-bottom:0}
+.field label{
+  display:block;font-size:12px;font-weight:750;margin-bottom:7px
+}
+.field input,.field textarea,.field select{
+  display:block;width:100%;border:1px solid #e4e4e9;
+  border-radius:8px;padding:10px 11px;background:#fafafd;
+  color:var(--text);min-width:0
+}
+.field textarea{resize:vertical;min-height:76px;line-height:1.6}
+.field input[type="file"]{font-size:12px;padding:9px}
+.field input[type="color"]{height:42px;padding:4px}
+.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:11px;color:var(--muted);line-height:1.6;margin-top:6px}
+.check-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.check-row input{accent-color:var(--accent)}
+.item-list{display:flex;flex-direction:column;gap:8px}
+.item-card{
+  display:flex;align-items:center;gap:10px;padding:9px;
+  border:1px solid var(--line);border-radius:9px;min-width:0
+}
+.item-thumb{
+  width:43px;height:43px;border-radius:7px;object-fit:cover;
+  background:#eee;flex-shrink:0
+}
+.item-meta{flex:1;min-width:0}
+.item-meta strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.item-meta span{font-size:11px;color:var(--muted)}
+.icon-btn{
+  border:0;background:#f4f4f7;border-radius:7px;
+  width:30px;height:30px;color:#555;flex-shrink:0
+}
+.preview-area{
+  display:flex;align-items:center;justify-content:center;
+  padding:35px 24px 55px;min-width:0;position:relative
+}
+.preview-inner{width:100%;max-width:600px}
+.preview-heading{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:23px;gap:12px
+}
+.preview-heading h2{font-size:17px;margin:0 0 5px}
+.preview-heading p{margin:0;color:var(--muted);font-size:12px}
+.live{font-size:11px;color:#218b56;display:flex;gap:5px;align-items:center}
+.live:before{content:"";width:7px;height:7px;background:#35bd7a;border-radius:50%}
+.phone{
+  width:100%;max-width:410px;margin:auto;background:#fff;
+  border:8px solid #202024;border-radius:37px;overflow:hidden;
+  box-shadow:0 20px 65px #22222218;position:relative
+}
+.phone-screen{
+  height:min(760px,calc(100vh - 190px));min-height:510px;
+  overflow-y:auto;overflow-x:hidden;background:white;scrollbar-width:thin
+}
+.phone-status{
+  height:29px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;font-size:11px;font-weight:750;background:white
+}
+.status-icons{display:flex;gap:5px;align-items:center}
+.mobile-appbar{
+  height:47px;border-bottom:1px solid #eee;display:flex;
+  align-items:center;justify-content:space-between;padding:0 14px
+}
+.ig-logo{font-size:24px;font-weight:800;letter-spacing:-1.2px}
+.ig-actions{display:flex;gap:16px;align-items:center}
+.ig-actions button,.phone-tabs button{
+  border:0;background:none;padding:0;color:#222
+}
+.ig-icon{width:23px;height:23px;display:block}
+.profile-top{
+  display:grid;grid-template-columns:105px 1fr;gap:10px;
+  padding:20px 13px 14px;align-items:center
+}
+.profile-avatar-wrap{display:flex;justify-content:center;align-items:center}
+.profile-avatar{
+  width:82px;height:82px;border-radius:50%;object-fit:cover;
+  background:#eee;border:1px solid #eee
+}
+.profile-main{min-width:0}
+.profile-username{
+  font-size:14px;font-weight:500;display:flex;align-items:center;
+  gap:5px;overflow-wrap:anywhere;margin-bottom:14px
+}
+.verified{color:#3897f0;font-size:13px}
+.stats{display:flex;justify-content:space-between;gap:5px}
+.stat{text-align:center;min-width:0}
+.stat strong{font-size:14px;display:block;font-weight:750}
+.stat span{font-size:10px;color:#555;white-space:nowrap}
+.profile-bio{padding:0 15px 13px;line-height:1.5;font-size:12px}
+.profile-name{font-weight:750;margin-bottom:2px}
+.bio-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.profile-link{color:#00376b;font-weight:700;overflow-wrap:anywhere}
+.profile-buttons{display:flex;gap:5px;padding:0 13px 14px}
+.profile-buttons button{
+  flex:1;border:0;background:#efeff2;border-radius:7px;
+  padding:8px 2px;font-size:11px;font-weight:750
+}
+.highlights{
+  display:flex;gap:14px;overflow-x:auto;padding:2px 13px 18px;
+  scrollbar-width:none
+}
+.highlight{border:0;background:none;padding:0;width:61px;flex:0 0 61px}
+.highlight-ring{
+  width:59px;height:59px;padding:3px;border:1px solid #d7d7d7;
+  border-radius:50%;margin:auto auto 5px
+}
+.highlight-ring img{
+  width:100%;height:100%;border-radius:50%;object-fit:cover
+}
+.highlight-label{
+  font-size:10px;display:block;overflow:hidden;
+  white-space:nowrap;text-overflow:ellipsis
+}
+.phone-tabs{
+  height:43px;border-top:1px solid #eee;display:flex;
+  align-items:center;justify-content:space-around
+}
+.phone-tabs button{
+  height:43px;width:33.333%;display:grid;place-items:center;
+  color:#999;border-bottom:1px solid transparent
+}
+.phone-tabs button.active{color:#222;border-bottom:1px solid #222}
+.phone-tabs svg{width:19px;height:19px}
+.post-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.post-tile{
+  aspect-ratio:1;border:0;padding:0;background:#f0f0f0;
+  position:relative;overflow:hidden
+}
+.post-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.post-tile .tile-overlay{
+  position:absolute;inset:0;background:#0005;color:white;
+  display:none;align-items:center;justify-content:center;font-weight:800
+}
+.post-tile:hover .tile-overlay{display:flex}
+.empty-grid{
+  grid-column:1/-1;min-height:155px;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;gap:8px;color:#888;font-size:11px
+}
+.empty-grid strong{color:#333;font-size:13px}
+.phone-bottom{
+  height:47px;border-top:1px solid #eee;display:flex;
+  align-items:center;justify-content:space-around
+}
+.phone-bottom svg{width:22px;height:22px}
+.mobile-switch{display:none}
+.notice{
+  padding:11px 12px;background:#f6f3ff;border-radius:9px;
+  color:#6250bc;font-size:11px;line-height:1.6;margin-top:13px
+}
+@media(min-width:1050px){
+  .layout{grid-template-columns:365px 1fr}
+  .editor{padding:25px 20px}
+}
+@media(max-width:760px){
+  .topbar{height:57px;padding:0 15px}
+  .top-label{display:none}
+  .logo{font-size:18px}
+  .top-actions .btn{padding:8px 10px;font-size:12px}
+  .layout{display:flex;flex-direction:column;min-height:calc(100vh - 57px)}
+  .mobile-switch{
+    display:flex;position:sticky;top:57px;z-index:15;
+    padding:8px;background:#fff;border-bottom:1px solid var(--line);gap:6px
+  }
+  .mobile-switch button{
+    flex:1;padding:10px;border:0;border-radius:8px;
+    background:#f1f1f5;font-weight:750;color:#777
+  }
+  .mobile-switch button.active{background:var(--accent-light);color:var(--accent)}
+  .editor{border:0;padding:18px 14px 30px;order:2}
+  .preview-area{padding:20px 10px 35px;order:1}
+  body[data-view="edit"] .preview-area{display:none}
+  body[data-view="edit"] .editor{display:block}
+  body[data-view="preview"] .editor{display:none}
+  body[data-view="preview"] .preview-area{display:flex}
+  .preview-heading{max-width:410px;margin:0 auto 15px}
+  .preview-heading p{display:none}
+  .phone{max-width:390px;border-width:5px;border-radius:30px}
+  .phone-screen{height:min(680px,calc(100dvh - 175px));min-height:480px}
+  .profile-top{grid-template-columns:94px 1fr;padding-top:17px}
+  .profile-avatar{width:75px;height:75px}
+  .editor-heading h1{font-size:21px}
+}
+@media(max-width:360px){
+  .profile-top{grid-template-columns:79px 1fr;gap:7px}
+  .profile-avatar{width:67px;height:67px}
+  .stat span{font-size:9px}
+  .highlight{width:55px;flex-basis:55px}
+  .highlight-ring{width:53px;height:53px}
 }
 </style>
 </head>
-<body>
-<svg style="position:absolute;width:0;height:0;overflow:hidden">
-<symbol id="home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H14v-7h-4v7H3z"/></symbol>
-<symbol id="heart" viewBox="0 0 24 24"><path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.5a5.5 5.5 0 0 0 0-7.7z"/></symbol>
-<symbol id="search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="7.3"/><path d="m16 16 5 5"/></symbol>
-<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-<symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
-<symbol id="message" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.8 8.4 9 9 0 0 1-3.8-.9L3 21l1.7-4.8a8.3 8.3 0 1 1 16.3-4.7z"/></symbol>
-</svg>
-
-<aside class="sidebar">
-<div class="brand">Instagram</div>
-<nav class="nav">
-<button><svg><use href="#home"/></svg><span class="nav-label">홈</span></button>
-<button onclick="alert('검색 기능은 아직 준비 중이에요.')"><svg><use href="#search"/></svg><span class="nav-label">검색</span></button>
-<button onclick="openDM()"><svg><use href="#message"/></svg><span class="nav-label">메시지</span></button>
-<button onclick="newPost()"><svg><use href="#plus"/></svg><span class="nav-label">만들기</span></button>
-<button onclick="editProfile()"><svg><use href="#heart"/></svg><span class="nav-label">프로필 편집</span></button>
-</nav>
-</aside>
-
-<header class="mobile-header">
-<div class="brand">Instagram</div>
-<button onclick="newPost()" style="border:0;background:white"><svg><use href="#plus"/></svg></button>
+<body data-view="preview">
+<header class="topbar">
+  <div class="logo">SHOO<span>STAR</span>GRAM <span style="font-size:12px;color:#999">STUDIO</span></div>
+  <div class="top-label">나만의 SNS 프로필 만들기</div>
+  <div class="top-actions">
+    <button class="btn" onclick="resetAll()">초기화</button>
+    <button class="btn primary" onclick="downloadData()">백업</button>
+  </div>
 </header>
 
-<main><div class="page">
-<section class="profile">
-<div class="avatar-col"><img id="profileAvatar" class="avatar profile-avatar" alt="프로필 사진"></div>
-<div class="profile-info">
-<div class="profile-top"><span id="username" class="username"></span><div class="actions"><button class="btn gray" onclick="editProfile()">프로필 편집</button><button class="btn gray" onclick="openDM()">메시지</button><button class="btn gray" onclick="newPost()">＋</button></div></div>
-<ul class="stats"><li><strong id="postCount">0</strong> 게시물</li><li><strong>1,248</strong> 팔로워</li><li><strong>386</strong> 팔로잉</li></ul>
-<div id="displayName" style="font-weight:bold;margin-bottom:5px"></div><div id="bio" class="bio"></div><div id="website"></div>
+<div class="mobile-switch">
+  <button id="editSwitch" onclick="setView('edit')">✎ 편집하기</button>
+  <button id="previewSwitch" class="active" onclick="setView('preview')">▣ 미리보기</button>
 </div>
-</section>
-<section id="stories" class="stories"></section>
-<div class="tabs">
-<button class="tab active" data-tab="posts"><svg><use href="#grid"/></svg><span>게시물</span></button>
-<button class="tab" data-tab="saved"><svg><use href="#heart"/></svg><span>저장됨</span></button>
-</div>
-<section id="grid" class="grid"></section>
-</div></main>
 
-<nav class="bottom-nav">
-<button aria-label="홈"><svg><use href="#home"/></svg></button>
-<button aria-label="검색" onclick="alert('검색 기능은 아직 준비 중이에요.')"><svg><use href="#search"/></svg></button>
-<button aria-label="게시물 추가" onclick="newPost()"><svg><use href="#plus"/></svg></button>
-<button aria-label="메시지" onclick="openDM()"><svg><use href="#message"/></svg></button>
-</nav>
-<div id="modalRoot"></div>
+<div class="layout">
+  <aside class="editor">
+    <div class="editor-heading">
+      <h1>프로필 에디터</h1>
+      <p>왼쪽에서 수정하면 오른쪽 화면에<br>바로 반영돼.</p>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span class="section-number">01</span>프로필 설정</div>
+      </div>
+      <div class="field">
+        <label for="usernameInput">아이디</label>
+        <input id="usernameInput" maxlength="30" placeholder="username">
+      </div>
+      <div class="field">
+        <label for="nameInput">이름</label>
+        <input id="nameInput" maxlength="50" placeholder="이름">
+      </div>
+      <div class="field">
+        <label for="bioInput">소개글</label>
+        <textarea id="bioInput" maxlength="500" placeholder="프로필 소개를 입력해 줘"></textarea>
+      </div>
+      <div class="field">
+        <label for="linkInput">웹사이트 / 링크</label>
+        <input id="linkInput" maxlength="200" placeholder="example.com">
+      </div>
+      <div class="field">
+        <label for="avatarInput">프로필 사진</label>
+        <input id="avatarInput" type="file" accept="image/*">
+      </div>
+      <div class="two-cols">
+        <div class="field">
+          <label for="followersInput">팔로워</label>
+          <input id="followersInput" type="number" min="0" max="999999999" value="1248">
+        </div>
+        <div class="field">
+          <label for="followingInput">팔로잉</label>
+          <input id="followingInput" type="number" min="0" max="999999999" value="386">
+        </div>
+      </div>
+      <label class="check-row">
+        <input type="checkbox" id="verifiedInput">
+        인증 배지 표시
+      </label>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span class="section-number">02</span>스토리 하이라이트</div>
+        <button class="btn small primary" onclick="addStory()">＋ 추가</button>
+      </div>
+      <div id="storyEditor" class="item-list"></div>
+      <div class="hint">스토리 사진과 이름을 추가하거나 삭제할 수 있어.</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span class="section-number">03</span>게시물</div>
+        <button class="btn small primary" onclick="addPost()">＋ 추가</button>
+      </div>
+      <div id="postEditor" class="item-list"></div>
+      <div class="hint">사진을 올리고 캡션과 좋아요 수를 설정해 줘.</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span class="section-number">04</span>화면 설정</div>
+      </div>
+      <div class="field">
+        <label for="themeInput">배경 포인트 색상</label>
+        <input id="themeInput" type="color" value="#7559ed">
+      </div>
+      <div class="field">
+        <label for="postTabInput">게시물 탭 이름</label>
+        <input id="postTabInput" maxlength="20" value="게시물">
+      </div>
+      <div class="field">
+        <label for="savedTabInput">두 번째 탭 이름</label>
+        <input id="savedTabInput" maxlength="20" value="릴스">
+      </div>
+      <div class="field">
+        <label for="thirdTabInput">세 번째 탭 이름</label>
+        <input id="thirdTabInput" maxlength="20" value="태그됨">
+      </div>
+    </section>
+
+    <div class="notice">
+      ✨ 편집 내용은 이 브라우저에 자동 저장돼. 사진을 많이 올리면 저장 공간이 부족할 수 있으니 중요한 작업은 백업해 줘.
+    </div>
+  </aside>
+
+  <main class="preview-area">
+    <div class="preview-inner">
+      <div class="preview-heading">
+        <div>
+          <h2>실시간 미리보기</h2>
+          <p>실제 휴대폰 화면에 가까운 프로필 레이아웃</p>
+        </div>
+        <span class="live">LIVE</span>
+      </div>
+
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-status">
+            <span id="phoneTime">9:41</span>
+            <span class="status-icons">● ▰ ▰</span>
+          </div>
+
+          <div class="mobile-appbar">
+            <div class="ig-logo" id="phoneUsername">your_username</div>
+            <div class="ig-actions">
+              <button title="게시물 추가" onclick="addPost()">
+                <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></svg>
+              </button>
+              <button title="메뉴" onclick="alert('프로필 미리보기입니다.')">
+                <svg class="ig-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="profile-top">
+            <div class="profile-avatar-wrap">
+              <img id="phoneAvatar" class="profile-avatar" alt="프로필 사진">
+            </div>
+            <div class="profile-main">
+              <div class="profile-username">
+                <span id="phoneUsername2">your_username</span>
+                <span id="verifiedBadge" class="verified hidden">●</span>
+              </div>
+              <div class="stats">
+                <div class="stat"><strong id="phonePosts">0</strong><span>게시물</span></div>
+                <div class="stat"><strong id="phoneFollowers">1,248</strong><span>팔로워</span></div>
+                <div class="stat"><strong id="phoneFollowing">386</strong><span>팔로잉</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-bio">
+            <div id="phoneName" class="profile-name">Your Name</div>
+            <div id="phoneBio" class="bio-text">일상의 기록 ✨</div>
+            <div id="phoneLink" class="profile-link"></div>
+          </div>
+
+          <div class="profile-buttons">
+            <button onclick="alert('미리보기 화면입니다.')">팔로잉</button>
+            <button onclick="alert('미리보기 화면입니다.')">메시지</button>
+            <button onclick="alert('미리보기 화면입니다.')">친구 추가</button>
+          </div>
+
+          <div id="phoneStories" class="highlights"></div>
+
+          <div class="phone-tabs">
+            <button class="active" id="tab1" onclick="switchGrid(0)" title="게시물">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button id="tab2" onclick="switchGrid(1)" title="릴스">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m10 8 6 4-6 4z"/></svg>
+            </button>
+            <button id="tab3" onclick="switchGrid(2)" title="태그됨">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+            </button>
+          </div>
+
+          <div id="phoneGrid" class="post-grid"></div>
+
+          <div class="phone-bottom">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10h-6v-6H9v6H3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="m10 8 6 4-6 4z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-8.8 8.4 9 9 0 0 1-3.8-.9L3 21l1.7-4.8a8.3 8.3 0 1 1 16.3-4.7z"/></svg>
+            <img id="bottomAvatar" class="profile-avatar" style="width:23px;height:23px" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<input id="hiddenFile" type="file" accept="image/*" hidden>
 
 <script>
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function placeholder(label,color='#d9dce5'){
-return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="100%" height="100%" fill="${color}"/><circle cx="150" cy="115" r="55" fill="#ffffff66"/><path d="M40 300 Q150 150 260 300" fill="#ffffff66"/><text x="150" y="285" text-anchor="middle" font-size="18" fill="#555">${label}</text></svg>`)
-}
-const initial={
-profile:{username:'your_username',name:'Your Name',bio:'일상의 기록 ✨\n좋아하는 것들을 모아두는 공간',website:'',avatar:placeholder('profile','#e7d7d1')},
-stories:[
-{id:'s1',label:'daily',image:placeholder('daily','#e7c9bc'),seen:false},
-{id:'s2',label:'mood',image:placeholder('mood','#c8d5e6'),seen:false},
-{id:'s3',label:'memory',image:placeholder('memory','#e4d9a9'),seen:false}
-],
-posts:[],
-chats:[
-{id:'c1',name:'민지',avatar:placeholder('민지','#e6c9dc'),messages:[{mine:false,text:'오늘 뭐 해?'},{mine:true,text:'그냥 쉬는 중!'}]},
-{id:'c2',name:'지우',avatar:placeholder('지우','#c8d9c6'),messages:[{mine:false,text:'사진 너무 잘 나왔다 ㅎㅎ'}]}
-]};
-let state;
-try{state=JSON.parse(localStorage.getItem('instagramMockup'))||JSON.parse(JSON.stringify(initial))}catch(e){state=JSON.parse(JSON.stringify(initial))}
-state.profile ||= initial.profile;state.stories ||= [];state.posts ||= [];state.chats ||= [];
-let tab='posts',chatId=state.chats[0]?.id;
-function save(){try{localStorage.setItem('instagramMockup',JSON.stringify(state))}catch(e){alert('저장 공간이 부족해요. 사진 크기를 줄여 주세요.')}}
-function render(){
-$('#profileAvatar').src=state.profile.avatar;
-$('#username').textContent=state.profile.username;
-$('#displayName').textContent=state.profile.name;
-$('#bio').textContent=state.profile.bio;
-$('#website').textContent=state.profile.website;
-$('#website').style.cssText='color:#00376b;font-weight:bold;margin-top:5px';
-$('#postCount').textContent=state.posts.length;
-$('#stories').innerHTML=`<button class="story story-add" onclick="newStory()"><div class="story-ring"><div class="story-inner">+</div></div><span class="story-label">새 스토리</span></button>`+state.stories.map((s,i)=>`<button class="story" onclick="showStory(${i})"><div class="story-ring ${s.seen?'seen':''}"><div class="story-inner"><img src="${s.image}" alt=""></div></div><span class="story-label">${esc(s.label)}</span></button>`).join('');
-const posts=tab==='saved'?state.posts.filter(p=>p.saved):state.posts;
-$('#grid').innerHTML=posts.length?posts.slice().reverse().map(p=>`<button class="tile" onclick="showPost('${p.id}')"><img src="${p.image}" alt=""><span class="hidden">${esc(p.caption)}</span></button>`).join(''):`<div class="empty">${tab==='saved'?'저장한 게시물이 없어요.':'게시물이 아직 없어요. + 버튼으로 사진을 추가해 보세요.'}</div>`;
-}
-function modal(title,content,wide=false){
-$('#modalRoot').innerHTML=`<div class="overlay" id="overlay"><section class="modal ${wide?'wide':''}"><header class="modal-head">${title}<button class="close" onclick="closeModal()">×</button></header>${content}</section></div>`;
-$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
-}
-function closeModal(){$('#modalRoot').innerHTML=''}
-function editProfile(){
-modal('프로필 편집',`<form id="profileForm" class="modal-body">
-<div class="field"><label>아이디</label><input name="username" maxlength="30" required value="${esc(state.profile.username)}"></div>
-<div class="field"><label>이름</label><input name="name" maxlength="50" value="${esc(state.profile.name)}"></div>
-<div class="field"><label>소개</label><textarea name="bio" maxlength="500">${esc(state.profile.bio)}</textarea></div>
-<div class="field"><label>웹사이트</label><input name="website" value="${esc(state.profile.website)}" placeholder="https://..."></div>
-<div class="field"><label>프로필 사진</label><input name="avatar" type="file" accept="image/*"></div>
-<button class="btn blue full">저장</button></form>`);
-$('#profileForm').onsubmit=async e=>{
-e.preventDefault();const f=e.target;
-state.profile.username=f.username.value.trim()||'user';state.profile.name=f.name.value;state.profile.bio=f.bio.value;state.profile.website=f.website.value;
-if(f.avatar.files[0])state.profile.avatar=await readImage(f.avatar.files[0]);
-save();render();closeModal();
+const $=id=>document.getElementById(id);
+const placeholder=(text,color='#dcd7f4')=>{
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="${color}"/><circle cx="200" cy="155" r="65" fill="#ffffff70"/><path d="M50 400 Q200 180 350 400" fill="#ffffff70"/><text x="200" y="355" text-anchor="middle" font-size="26" fill="#555">${text}</text></svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
 };
+const demoPhotos=[
+  'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=500&q=80',
+  'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80',
+  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80'
+];
+const defaults={
+ username:'your_username',
+ name:'Your Name',
+ bio:'일상의 기록 ✨\n좋아하는 것들을 모아두는 공간',
+ link:'',
+ avatar:placeholder('profile','#e7d7d1'),
+ followers:1248,
+ following:386,
+ verified:false,
+ theme:'#7559ed',
+ tabNames:['게시물','릴스','태그됨'],
+ stories:[
+  {id:1,name:'daily',image:placeholder('daily','#e8c9bc')},
+  {id:2,name:'mood',image:placeholder('mood','#cbd6e7')},
+  {id:3,name:'memory',image:placeholder('memory','#e9dfb6')}
+ ],
+ posts:[],
+ gridTab:0
+};
+let state;
+try{
+  state=JSON.parse(localStorage.getItem('shoostargramStudio'));
+  if(!state||!state.username)state=JSON.parse(JSON.stringify(defaults));
+}catch(e){state=JSON.parse(JSON.stringify(defaults))}
+state.stories ||= [];
+state.posts ||= [];
+state.tabNames ||= ['게시물','릴스','태그됨'];
+state.gridTab ||= 0;
+let nextId=Date.now();
+
+function persist(){
+  try{localStorage.setItem('shoostargramStudio',JSON.stringify(state))}
+  catch(e){alert('저장 공간이 부족해! 사진을 줄이거나 백업한 뒤 다시 시도해 줘.')}
 }
-function readImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),scale=Math.min(1,1200/Math.max(im.width,im.height));c.width=im.width*scale;c.height=im.height*scale;c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.82))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file)})}
-function newPost(isStory=false){
-modal(isStory?'새 스토리':'새 게시물',`<form id="uploadForm" class="modal-body">
-<div class="upload"><p id="hint">사진을 선택해 주세요</p><img id="preview" class="hidden" style="max-width:100%;max-height:220px;object-fit:contain"><input name="photo" type="file" accept="image/*" required></div>
-<div class="field"><label>${isStory?'스토리 이름':'캡션'}</label>${isStory?'<input name="caption" maxlength="30" placeholder="daily">':'<textarea name="caption" maxlength="1000" placeholder="사진에 대해 적어 보세요."></textarea>'}</div>
-<button class="btn blue full"> ${isStory?'스토리 올리기':'게시물 공유'} </button></form>`);
-const form=$('#uploadForm');
-form.photo.onchange=async()=>{const file=form.photo.files[0];if(!file)return;$('#preview').src=await readImage(file);$('#preview').classList.remove('hidden');$('#hint').classList.add('hidden')};
-form.onsubmit=async e=>{e.preventDefault();const file=form.photo.files[0];if(!file)return;const image=$('#preview').src;const caption=form.caption.value.trim();const id='p'+Date.now();
-if(isStory)state.stories.push({id,label:caption||'스토리',image,seen:false});
-else state.posts.push({id,image,caption,likes:0,liked:false,saved:false,comments:[]});
-save();render();closeModal()};
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
 }
-function newStory(){newPost(true)}
-function showStory(index){
-if(!state.stories.length)return;
-const s=state.stories[index];s.seen=true;save();render();
-modal('',`<div class="story-view"><button class="story-close" onclick="closeModal()">×</button><img id="storyImage" src="${s.image}" alt="스토리"><div class="story-head"><img class="avatar" src="${state.profile.avatar}"><strong>${esc(state.profile.username)}</strong><span>· 방금</span></div><button class="story-arrow left" onclick="changeStory(${index},-1)">‹</button><button class="story-arrow right" onclick="changeStory(${index},1)">›</button></div>`);
+function compact(n){
+  n=Math.max(0,Number(n)||0);
+  if(n>=1000000)return (n/1000000).toFixed(1).replace(/\.0$/,'')+'M';
+  if(n>=10000)return (n/1000).toFixed(1).replace(/\.0$/,'')+'K';
+  return n.toLocaleString('en-US');
 }
-function changeStory(index,delta){const next=(index+delta+state.stories.length)%state.stories.length;showStory(next)}
-function showPost(id){
-const p=state.posts.find(x=>x.id===id);if(!p)return;
-modal('',`<div class="post-view"><div class="post-photo"><img src="${p.image}"></div><div class="post-right"><div class="post-author">${esc(state.profile.username)} <button class="close" onclick="deletePost('${p.id}')">⋯</button></div><div class="comments">${p.caption?`<div class="comment"><b>${esc(state.profile.username)}</b> ${esc(p.caption)}</div>`:''}${p.comments.map(c=>`<div class="comment"><b>${esc(c.user)}</b> ${esc(c.text)}</div>`).join('')}</div><div class="post-tools"><div class="tool-buttons"><button onclick="likePost('${p.id}')">${p.liked?'❤️':'♡'}</button><button onclick="document.querySelector('#commentInput').focus()">댓글</button><button style="margin-left:auto" onclick="savePost('${p.id}')">${p.saved?'저장됨':'저장'}</button></div><b>${p.likes} 좋아요</b></div><form class="comment-form" id="commentForm"><input id="commentInput" maxlength="500" placeholder="댓글 달기..." required><button>게시</button></form></div></div>`,true);
-$('#commentForm').onsubmit=e=>{e.preventDefault();const text=$('#commentInput').value.trim();if(!text)return;p.comments.push({user:state.profile.username,text});save();showPost(id)};
+function render(){
+  $('usernameInput').value=state.username;
+  $('nameInput').value=state.name;
+  $('bioInput').value=state.bio;
+  $('linkInput').value=state.link;
+  $('followersInput').value=state.followers;
+  $('followingInput').value=state.following;
+  $('verifiedInput').checked=!!state.verified;
+  $('themeInput').value=state.theme;
+  $('postTabInput').value=state.tabNames[0];
+  $('savedTabInput').value=state.tabNames[1];
+  $('thirdTabInput').value=state.tabNames[2];
+
+  document.documentElement.style.setProperty('--accent',state.theme);
+  document.documentElement.style.setProperty('--accent-light',state.theme+'20');
+
+  $('phoneUsername').textContent=state.username;
+  $('phoneUsername2').textContent=state.username;
+  $('phoneName').textContent=state.name;
+  $('phoneBio').textContent=state.bio;
+  $('phoneLink').textContent=state.link;
+  $('phoneLink').classList.toggle('hidden',!state.link);
+  $('phoneAvatar').src=state.avatar;
+  $('bottomAvatar').src=state.avatar;
+  $('phoneFollowers').textContent=compact(state.followers);
+  $('phoneFollowing').textContent=compact(state.following);
+  $('phonePosts').textContent=state.posts.length;
+  $('verifiedBadge').classList.toggle('hidden',!state.verified);
+
+  const labels=state.tabNames;
+  $('tab1').title=labels[0]||'게시물';
+  $('tab2').title=labels[1]||'릴스';
+  $('tab3').title=labels[2]||'태그됨';
+  document.querySelectorAll('.phone-tabs button').forEach((b,i)=>{
+    b.classList.toggle('active',state.gridTab===i);
+  });
+
+  renderStories();
+  renderPosts();
+  renderEditorLists();
 }
-function likePost(id){const p=state.posts.find(x=>x.id===id);p.liked=!p.liked;p.likes=Math.max(0,p.likes+(p.liked?1:-1));save();showPost(id)}
-function savePost(id){const p=state.posts.find(x=>x.id===id);p.saved=!p.saved;save();showPost(id)}
-function deletePost(id){if(confirm('게시물을 삭제할까요?')){state.posts=state.posts.filter(p=>p.id!==id);save();closeModal();render()}}
-function openDM(){
-const c=state.chats.find(x=>x.id===chatId)||state.chats[0];
-modal('메시지',`<div class="dm"><aside class="dm-list"><h3>${esc(state.profile.username)}</h3>${state.chats.map(x=>`<button class="contact ${x.id===c?.id?'selected':''}" onclick="selectChat('${x.id}')"><img class="avatar" src="${x.avatar}"><span>${esc(x.name)}</span></button>`).join('')}<button class="contact" onclick="addChat()">＋ 대화 추가</button></aside><section class="chat">${c?`<div class="chat-head">${esc(c.name)}</div><div class="messages" id="messages">${c.messages.map(m=>`<div class="bubble ${m.mine?'mine':''}">${esc(m.text)}</div>`).join('')}</div><form class="dm-form" id="dmForm"><input name="message" maxlength="1000" placeholder="메시지 보내기..." required><button>보내기</button></form>`:'대화를 추가해 주세요.'}</section></div>`,true);
-const messages=$('#messages');if(messages)messages.scrollTop=messages.scrollHeight;
-const f=$('#dmForm');if(f)f.onsubmit=e=>{e.preventDefault();const text=f.message.value.trim();if(!text||!c)return;c.messages.push({mine:true,text});save();openDM()};
+function renderStories(){
+  $('phoneStories').innerHTML=state.stories.map(s=>`
+    <div class="highlight">
+      <div class="highlight-ring"><img src="${s.image}" alt=""></div>
+      <span class="highlight-label">${esc(s.name)}</span>
+    </div>`).join('');
 }
-function selectChat(id){chatId=id;openDM()}
-function addChat(){
-modal('새 대화',`<form class="modal-body" id="newChatForm"><div class="field"><label>친구 이름</label><input name="name" required maxlength="40"></div><button class="btn blue full">만들기</button></form>`);
-$('#newChatForm').onsubmit=e=>{e.preventDefault();const name=e.target.name.value.trim();chatId='c'+Date.now();state.chats.push({id:chatId,name,avatar:placeholder(name,'#d8d8e8'),messages:[]});save();openDM()};
+function renderPosts(){
+  let posts=state.posts.slice();
+  if(state.gridTab!==0)posts=posts.filter(p=>p.gridTab===state.gridTab);
+  if(!posts.length){
+    $('phoneGrid').innerHTML=`
+      <div class="empty-grid">
+        <strong>▦</strong>
+        <span>${state.gridTab===0?'게시물이 없습니다':'아직 표시할 콘텐츠가 없습니다'}</span>
+      </div>`;
+    return;
+  }
+  $('phoneGrid').innerHTML=posts.slice().reverse().map(p=>`
+    <button class="post-tile" onclick="editPost(${p.id})" title="게시물 편집">
+      <img src="${p.image}" alt="">
+      <span class="tile-overlay">♥ ${compact(p.likes)}</span>
+    </button>`).join('');
 }
-document.addEventListener('click',e=>{
-const story=e.target.closest('[data-story]');if(story)showStory(Number(story.dataset.story));
-const t=e.target.closest('[data-tab]');if(t){tab=t.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));render()}
+function renderEditorLists(){
+  $('storyEditor').innerHTML=state.stories.length?state.stories.map(s=>`
+    <div class="item-card">
+      <img class="item-thumb" src="${s.image}" alt="">
+      <div class="item-meta"><strong>${esc(s.name)}</strong><span>하이라이트</span></div>
+      <button class="icon-btn" onclick="editStory(${s.id})" title="편집">✎</button>
+      <button class="icon-btn" onclick="deleteStory(${s.id})" title="삭제">×</button>
+    </div>`).join(''):'<div class="hint">아직 스토리가 없어. ＋ 추가를 눌러 줘.</div>';
+
+  $('postEditor').innerHTML=state.posts.length?state.posts.slice().reverse().map(p=>`
+    <div class="item-card">
+      <img class="item-thumb" src="${p.image}" alt="">
+      <div class="item-meta"><strong>${esc(p.caption||'새 게시물')}</strong><span>♥ ${compact(p.likes)} · ${state.tabNames[p.gridTab]||'게시물'}</span></div>
+      <button class="icon-btn" onclick="editPost(${p.id})" title="편집">✎</button>
+      <button class="icon-btn" onclick="deletePost(${p.id})" title="삭제">×</button>
+    </div>`).join(''):'<div class="hint">게시물을 추가하면 여기에 표시돼.</div>';
+}
+function bindText(id,key){
+  $(id).addEventListener('input',()=>{
+    state[key]=$(id).value;
+    persist();renderPreviewOnly();
+  });
+}
+function renderPreviewOnly(){
+  $('phoneUsername').textContent=state.username;
+  $('phoneUsername2').textContent=state.username;
+  $('phoneName').textContent=state.name;
+  $('phoneBio').textContent=state.bio;
+  $('phoneLink').textContent=state.link;
+  $('phoneLink').classList.toggle('hidden',!state.link);
+  $('phoneFollowers').textContent=compact(state.followers);
+  $('phoneFollowing').textContent=compact(state.following);
+  $('verifiedBadge').classList.toggle('hidden',!state.verified);
+  $('phonePosts').textContent=state.posts.length;
+  $('tab1').title=state.tabNames[0]||'게시물';
+  $('tab2').title=state.tabNames[1]||'릴스';
+  $('tab3').title=state.tabNames[2]||'태그됨';
+}
+bindText('usernameInput','username');
+bindText('nameInput','name');
+bindText('bioInput','bio');
+bindText('linkInput','link');
+
+$('followersInput').addEventListener('input',()=>{
+ state.followers=Math.max(0,Number($('followersInput').value)||0);
+ persist();renderPreviewOnly();
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('followingInput').addEventListener('input',()=>{
+ state.following=Math.max(0,Number($('followingInput').value)||0);
+ persist();renderPreviewOnly();
+});
+$('verifiedInput').addEventListener('change',()=>{
+ state.verified=$('verifiedInput').checked;
+ persist();renderPreviewOnly();
+});
+$('themeInput').addEventListener('input',()=>{
+ state.theme=$('themeInput').value;
+ document.documentElement.style.setProperty('--accent',state.theme);
+ document.documentElement.style.setProperty('--accent-light',state.theme+'20');
+ persist();
+});
+[['postTabInput',0],['savedTabInput',1],['thirdTabInput',2]].forEach(([id,i])=>{
+ $(id).addEventListener('input',()=>{
+  state.tabNames[i]=$(id).value;
+  persist();renderPreviewOnly();renderEditorLists();
+ });
+});
+$('avatarInput').addEventListener('change',async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{state.avatar=await readImage(f);persist();render()}
+ catch(err){alert('이미지를 읽을 수 없어. 다른 사진을 선택해 줘.')}
+ e.target.value='';
+});
+function readImage(file){
+ return new Promise((resolve,reject)=>{
+  if(!file.type.startsWith('image/')){reject(new Error('not image'));return}
+  const reader=new FileReader();
+  reader.onerror=reject;
+  reader.onload=()=>{
+   const img=new Image();
+   img.onerror=reject;
+   img.onload=()=>{
+    const canvas=document.createElement('canvas');
+    const scale=Math.min(1,1000/Math.max(img.width,img.height));
+    canvas.width=Math.round(img.width*scale);
+    canvas.height=Math.round(img.height*scale);
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    resolve(canvas.toDataURL('image/jpeg',.78));
+   };
+   img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+ });
+}
+function askImage(){
+ return new Promise(resolve=>{
+  const input=$('hiddenFile');
+  input.value='';
+  input.onchange=async()=>{
+   const f=input.files[0];
+   if(!f){resolve(null);return}
+   try{resolve(await readImage(f))}
+   catch(e){alert('이미지를 읽을 수 없어.');resolve(null)}
+  };
+  input.click();
+ });
+}
+async function addStory(){
+ const image=await askImage();if(!image)return;
+ const name=prompt('하이라이트 이름을 입력해 줘','daily');
+ if(name===null)return;
+ state.stories.push({id:++nextId,name:name.trim()||'하이라이트',image});
+ persist();render();
+}
+async function editStory(id){
+ const s=state.stories.find(x=>x.id===id);if(!s)return;
+ const name=prompt('하이라이트 이름',s.name);
+ if(name===null)return;
+ s.name=name.trim()||s.name;
+ if(confirm('사진도 바꿀까?')){
+  const image=await askImage();if(image)s.image=image;
+ }
+ persist();render();
+}
+function deleteStory(id){
+ if(!confirm('이 하이라이트를 삭제할까?'))return;
+ state.stories=state.stories.filter(s=>s.id!==id);
+ persist();render();
+}
+async function addPost(){
+ const image=await askImage();if(!image)return;
+ const caption=prompt('게시물 캡션을 입력해 줘','');
+ if(caption===null)return;
+ const raw=prompt('좋아요 수를 입력해 줘','128');
+ if(raw===null)return;
+ const likes=Math.max(0,Math.floor(Number(raw)||0));
+ state.posts.push({id:++nextId,image,caption,likes,gridTab:0});
+ persist();render();
+}
+async function editPost(id){
+ const p=state.posts.find(x=>x.id===id);if(!p)return;
+ const caption=prompt('캡션 수정',p.caption);
+ if(caption===null)return;
+ const likes=prompt('좋아요 수',String(p.likes));
+ if(likes===null)return;
+ p.caption=caption;
+ p.likes=Math.max(0,Math.floor(Number(likes)||0));
+ if(confirm('사진도 바꿀까?')){
+  const image=await askImage();if(image)p.image=image;
+ }
+ const choice=prompt('표시할 탭 번호를 입력해 줘: 1 게시물 / 2 릴스 / 3 태그됨',String(p.gridTab+1));
+ if(choice!==null){
+  const n=Number(choice);
+  if([1,2,3].includes(n))p.gridTab=n-1;
+ }
+ persist();render();
+}
+function deletePost(id){
+ if(!confirm('이 게시물을 삭제할까?'))return;
+ state.posts=state.posts.filter(p=>p.id!==id);
+ persist();render();
+}
+function switchGrid(i){
+ state.gridTab=i;
+ document.querySelectorAll('.phone-tabs button').forEach((b,n)=>b.classList.toggle('active',n===i));
+ persist();renderPosts();
+}
+function setView(view){
+ document.body.dataset.view=view;
+ $('editSwitch').classList.toggle('active',view==='edit');
+ $('previewSwitch').classList.toggle('active',view==='preview');
+ if(view==='preview')document.querySelector('.phone-screen').scrollTop=0;
+}
+function resetAll(){
+ if(!confirm('프로필과 게시물을 전부 초기화할까?'))return;
+ localStorage.removeItem('shoostargramStudio');
+ state=JSON.parse(JSON.stringify(defaults));
+ persist();render();
+}
+function downloadData(){
+ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;a.download='shoostargram-backup.json';a.click();
+ URL.revokeObjectURL(url);
+ alert('백업 파일을 저장했어. 이 파일은 편집 내용 백업용이야.');
+}
+$('phoneTime').textContent=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
 render();
+setView(window.innerWidth<=760?'preview':'edit');
 </script>
 </body>
 </html>
+
